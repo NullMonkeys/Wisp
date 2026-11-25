@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/aspire/">
+    <Project Path="aspire/Wisp.AppHost/Wisp.AppHost.csproj" />
+    <Project Path="aspire/Wisp.ServiceDefaults/Wisp.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Wisp.Gateway/Wisp.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/src/libs/">
+    <Project Path="src/libs/Wisp.Discord/Wisp.Discord.csproj" />
+    <Project Path="src/libs/Wisp.Persistence/Wisp.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Wisp.Gateway.Tests/Wisp.Gateway.Tests.csproj" />
+  </Folder>
+</Solution>

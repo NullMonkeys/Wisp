@@ -1,0 +1,7 @@
+<Project>
+
+    <PropertyGroup>
+        <AspireCliInvocationMode>Dnx</AspireCliInvocationMode>
+    </PropertyGroup>
+
+</Project>
