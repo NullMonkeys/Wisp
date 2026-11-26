@@ -13,6 +13,11 @@ public static class Extensions
 {
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        /// <summary>
+        /// Wires up what every Wisp service shares: OpenTelemetry logs, metrics and traces (exported over OTLP when
+        /// <c>OTEL_EXPORTER_OTLP_ENDPOINT</c> is set), service discovery, resilient HTTP clients, and health checks on
+        /// <c>/healthz</c> (liveness) and <c>/readyz</c> (readiness).
+        /// </summary>
         public TBuilder AddServiceDefaults()
         {
             builder.ConfigureOpenTelemetry();

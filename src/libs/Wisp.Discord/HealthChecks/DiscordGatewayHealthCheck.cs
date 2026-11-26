@@ -4,6 +4,9 @@ using NetCord.Gateway;
 
 namespace Wisp.Discord.HealthChecks;
 
+/// <summary>
+/// Healthy only when every shard this instance runs is connected and ready.
+/// </summary>
 internal sealed class DiscordGatewayHealthCheck(ShardedGatewayClient client) : IHealthCheck
 {
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)

@@ -3,6 +3,10 @@ using NetCord.Rest;
 
 namespace Wisp.Discord;
 
+/// <summary>
+/// The bot's standard reply: a colored Components V2 container with a heading, an optional body and an optional
+/// small footer under a separator. Body and footer are Discord markdown.
+/// </summary>
 public static class Cards
 {
     public static ComponentContainerProperties Success(string title, string? body = null, string? footer = null)
@@ -34,6 +38,10 @@ public static class Cards
 
     extension(ComponentContainerProperties card)
     {
+        /// <summary>
+        /// Wraps the card in an interaction response. Only the invoking user sees it unless <paramref name="ephemeral"/>
+        /// is <c>false</c>.
+        /// </summary>
         public InteractionMessageProperties ToMessage(bool ephemeral = true) => new()
         {
             Flags = ephemeral ? MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral : MessageFlags.IsComponentsV2,

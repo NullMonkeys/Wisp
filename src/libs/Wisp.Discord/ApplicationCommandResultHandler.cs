@@ -8,6 +8,11 @@ using NetCord.Services.ApplicationCommands;
 
 namespace Wisp.Discord;
 
+/// <summary>
+/// Turns failed slash commands into an ephemeral card for the user. Expected failures (such as a missing permission)
+/// show their message; exceptions are logged with a short error ID that the user also sees, so a report can be matched
+/// to a log entry.
+/// </summary>
 public sealed class ApplicationCommandResultHandler<TContext> : IApplicationCommandResultHandler<TContext>
     where TContext : IApplicationCommandContext
 {

@@ -18,6 +18,18 @@ public static class Extensions
 {
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        /// <summary>
+        /// Connects to Discord using <c>Discord:Token</c>, with the Guilds and GuildVoiceStates intents, and registers
+        /// slash commands, the command error handler and the <c>discord-gateway</c> health check.
+        /// </summary>
+        /// <remarks>
+        /// Gateway event handlers are found in the <em>calling</em> assembly and resolved per event in their own DI
+        /// scope, so call this from the app's own project.
+        /// <para>
+        /// Sharding is optional: this instance runs shards <c>Discord:ShardRange:Start</c> up to, but not including,
+        /// <c>Discord:ShardRange:End</c>, out of <c>Discord:TotalShardCount</c>. The defaults run a single shard.
+        /// </para>
+        /// </remarks>
         public TBuilder AddDiscordGateway()
         {
             builder.Services.AddDiscordShardedGateway(options =>
