@@ -18,6 +18,7 @@ internal sealed class TempVoiceGuildState(ShardedGatewayClient client) : ITempVo
     public bool HasVoiceMembers(ulong guildId, ulong channelId, ulong exceptUserId)
     {
         var guild = GetGuild(guildId);
+        // An uncached guild counts as occupied, so we never delete a channel we can't see into.
         return guild is null || guild.VoiceStates.Values.Any(v => v.ChannelId == channelId && v.UserId != exceptUserId);
     }
     

@@ -165,6 +165,8 @@ internal sealed partial class TempVoiceChannelsService(
                 ? guildState.GetPermissionOverwrites(guildId, categoryId).ToDictionary(o => o.Id)
                 : [];
 
+            // Keep only what the owner changed on top of the category, so later category permission
+            // changes still reach their next channel. Owner and bot overwrites are rebuilt in BuildChannel.
             preferences.Overwrites.Clear();
 
             foreach (var overwrite in afterOverwrites)
@@ -266,6 +268,8 @@ internal sealed partial class TempVoiceChannelsService(
             }
             catch (RestException e) when (e.StatusCode == HttpStatusCode.BadRequest)
             {
+                // Saved preferences may no longer be valid in this server; fall back to defaults
+                // rather than leave the user without a channel.
                 LogPreferencesRejected(e, ownerId, guildId);
             }
         }

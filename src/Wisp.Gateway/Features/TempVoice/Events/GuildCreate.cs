@@ -5,6 +5,10 @@ using NetCord.Hosting.Gateway;
 
 namespace Wisp.Gateway.Features.TempVoice.Events;
 
+/// <summary>
+/// GUILD_CREATE arrives for every guild on each new gateway session, so this catches up on
+/// temp voice channels that were deleted or emptied while the bot was offline.
+/// </summary>
 [UsedImplicitly]
 public sealed class GuildCreate(
     ITempVoiceChannelsService channelsService,
