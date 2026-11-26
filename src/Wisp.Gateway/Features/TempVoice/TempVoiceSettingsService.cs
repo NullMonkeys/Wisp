@@ -51,6 +51,8 @@ internal sealed partial class TempVoiceSettingsService(
         var oldCategoryId = config?.CategoryId;
         var oldMasterChannelId = config?.MasterChannelId;
 
+        // The old category and master channel are deleted only after the new ones are saved,
+        // so a failure from here on leaves the previous setup working.
         var categoryId = await CreateCategory(guildId, ct);
 
         ulong masterChannelId;

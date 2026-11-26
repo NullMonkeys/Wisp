@@ -14,6 +14,7 @@ public sealed class GuildChannelUpdate(ITempVoiceChannelsService channelsService
         if (channel is not VoiceGuildChannel after)
             return;
 
+        // The cache is updated only after handlers reach their first await, so it still holds the old channel.
         var guild = client.Cache.Guilds.GetValueOrDefault(channel.GuildId);
         if (guild?.Channels.GetValueOrDefault(channel.Id) is not VoiceGuildChannel before)
             return;
