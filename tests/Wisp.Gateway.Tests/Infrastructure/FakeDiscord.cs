@@ -7,6 +7,10 @@ using Wisp.Gateway.Features.TempVoice;
 
 namespace Wisp.Gateway.Tests.Infrastructure;
 
+/// <summary>
+/// An in-memory Discord for one test: channels, who's in voice, and REST failures on demand. It plays both the REST
+/// side and the gateway cache, so the two always agree.
+/// </summary>
 public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
 {
     private readonly Lock _lock = new();
@@ -26,6 +30,10 @@ public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
 
     #region Arranging
 
+    /// <summary>
+    /// Makes the next channel creation that matches <paramref name="when"/> (or any, if omitted) throw
+    /// <paramref name="exception"/>. Each call fails one creation.
+    /// </summary>
     public void FailNextCreate(Exception exception, Func<GuildChannelProperties, bool>? when = null)
     {
         lock (_lock)
@@ -90,6 +98,9 @@ public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
             return [.. _voice.Where(v => v.Key.GuildId == guildId).Select(v => v.Value)];
     }
 
+    /// <summary>
+    /// The channel's settings as Discord would report them, with Discord's defaults (no user limit, 64 kbps) filled in.
+    /// </summary>
     public TempChannelSettings SettingsOf(ulong channelId)
     {
         var channel = Channel(channelId) ?? throw new InvalidOperationException($"Channel {channelId} doesn't exist.");

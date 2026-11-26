@@ -11,6 +11,9 @@ using Wisp.Persistence;
 
 namespace Wisp.Gateway.Tests.Infrastructure;
 
+/// <summary>
+/// One Postgres container for the whole test run, started through Aspire and migrated once. Needs Docker.
+/// </summary>
 public sealed class DatabaseFixture : IAsyncLifetime
 {
     private DistributedApplication? _app;
@@ -34,6 +37,10 @@ public sealed class DatabaseFixture : IAsyncLifetime
         await host.MigrateDatabaseAsync();
     }
 
+    /// <summary>
+    /// Builds a host with the real persistence and feature services against the test database. Use
+    /// <paramref name="configureServices"/> to swap in fakes.
+    /// </summary>
     public IHost CreateHost(Action<IServiceCollection>? configureServices = null)
     {
         var builder = Host.CreateApplicationBuilder();
