@@ -5,6 +5,10 @@ using NetCord.Hosting.Gateway;
 
 namespace Wisp.Gateway.Features.TempVoice.Events;
 
+/// <summary>
+/// Catches up on whatever happened while the bot was offline: disables temp voice if its master channel or category is
+/// gone, and cleans up temp channels that were deleted or emptied in the meantime.
+/// </summary>
 [UsedImplicitly]
 public sealed class GuildCreate(
     ITempVoiceChannelsService channelsService,

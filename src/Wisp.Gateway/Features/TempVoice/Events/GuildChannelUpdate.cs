@@ -6,6 +6,13 @@ using NetCord.Hosting.Gateway;
 
 namespace Wisp.Gateway.Features.TempVoice.Events;
 
+/// <summary>
+/// Remembers what the owner changed on their temp channel, so their next one comes out the same.
+/// </summary>
+/// <remarks>
+/// The "before" state comes from the gateway cache. NetCord updates the cache once handlers reach their first
+/// <c>await</c>, so it has to be read before awaiting anything.
+/// </remarks>
 [UsedImplicitly]
 public sealed class GuildChannelUpdate(ITempVoiceChannelsService channelsService) : IGuildChannelUpdateShardedGatewayHandler
 {

@@ -5,6 +5,10 @@ using NetCord.Hosting.Gateway;
 
 namespace Wisp.Gateway.Features.Guilds.Events;
 
+/// <summary>
+/// Forgets a guild once the bot is removed from it. Discord sends the same event when a guild goes unavailable during
+/// an outage; that one is ignored so an outage doesn't wipe the guild's data.
+/// </summary>
 [UsedImplicitly]
 public sealed class GuildDelete(IGuildsService guildsService) : IGuildDeleteShardedGatewayHandler
 {

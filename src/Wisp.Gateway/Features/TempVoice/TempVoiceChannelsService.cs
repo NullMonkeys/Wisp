@@ -17,6 +17,7 @@ internal sealed partial class TempVoiceChannelsService(
     ITempVoiceGuildState guildState,
     WispDbContext dbContext) : ITempVoiceChannelsService
 {
+    // Static because the service is scoped (a new instance per gateway event), but the lock has to span all of them.
     private static readonly KeyedLock<(ulong GuildId, ulong UserId)> OwnerLocks = new();
 
     private const Permissions OwnerPermissions =
@@ -29,6 +30,10 @@ internal sealed partial class TempVoiceChannelsService(
         | Permissions.MuteUsers
         | Permissions.DeafenUsers;
 
+    /// <summary>
+    /// Granted to the bot on every temp channel, so the category's or owner's overwrites can't lock it out of moving
+    /// people in and deleting the channel later.
+    /// </summary>
     private const Permissions BotPermissions =
         Permissions.ViewChannel
         | Permissions.Connect
@@ -253,6 +258,10 @@ internal sealed partial class TempVoiceChannelsService(
         LogReconciled(guildId, stale.Count);
     }
 
+    /// <summary>
+    /// Creates the channel with the owner's preferences, falling back to defaults if Discord rejects them (for example a
+    /// bitrate the guild's boost level no longer allows).
+    /// </summary>
     private async Task<ulong> CreateChannelAsync(ulong guildId, ulong categoryId,
         IReadOnlyCollection<PermissionOverwriteSnapshot> categoryOverwrites, ulong ownerId, string? displayName,
         TempVoicePreferences? preferences, CancellationToken ct)
@@ -274,6 +283,10 @@ internal sealed partial class TempVoiceChannelsService(
             BuildChannel(categoryId, categoryOverwrites, ownerId, displayName, preferences: null), ct);
     }
 
+    /// <summary>
+    /// Overwrites are layered, later ones winning: the category's, then the owner's saved ones, then the bot's and
+    /// owner's own grants.
+    /// </summary>
     private GuildChannelProperties BuildChannel(ulong categoryId,
         IReadOnlyCollection<PermissionOverwriteSnapshot> categoryOverwrites, ulong ownerId, string? displayName,
         TempVoicePreferences? preferences)
@@ -310,6 +323,9 @@ internal sealed partial class TempVoiceChannelsService(
         };
     }
 
+    /// <summary>
+    /// The overwrites worth remembering: all but the owner's and the bot's, which <see cref="BuildChannel"/> sets anyway.
+    /// </summary>
     private HashSet<PermissionOverwriteSnapshot> UserOverwrites(IEnumerable<PermissionOverwriteSnapshot> overwrites,
         ulong ownerId)
         => [.. overwrites.Where(o => o.Id != ownerId && o.Id != guildState.BotId)];

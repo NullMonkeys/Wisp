@@ -15,6 +15,7 @@ internal sealed partial class TempVoiceSettingsService(
     WispDbContext dbContext,
     ITempVoiceChannelsService channelsService) : ITempVoiceSettingsService
 {
+    // Static because the service is scoped (a new instance per command or event), but the lock has to span all of them.
     private static readonly KeyedLock<ulong> GuildLocks = new();
 
     public async Task<TempVoiceConfig> GetAsync(ulong guildId, CancellationToken ct = default)

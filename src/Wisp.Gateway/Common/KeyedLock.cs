@@ -8,6 +8,10 @@ internal sealed class KeyedLock<TKey> where TKey : notnull
 {
     private readonly Dictionary<TKey, Entry> _entries = new();
 
+    /// <summary>
+    /// Waits until <paramref name="key"/> is free and takes it. Dispose the result to release it:
+    /// <c>using var _ = await locks.AcquireAsync(key, ct);</c>
+    /// </summary>
     public async ValueTask<Releaser> AcquireAsync(TKey key, CancellationToken ct = default)
     {
         Entry entry;

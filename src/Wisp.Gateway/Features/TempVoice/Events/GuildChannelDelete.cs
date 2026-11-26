@@ -6,6 +6,10 @@ using NetCord.Hosting.Gateway;
 
 namespace Wisp.Gateway.Features.TempVoice.Events;
 
+/// <summary>
+/// Keeps the database in sync when a channel is deleted on Discord. A temp channel is just forgotten; if it was the
+/// master channel or the category, temp voice can't work anymore and is disabled for the guild.
+/// </summary>
 [UsedImplicitly]
 public sealed class GuildChannelDelete(
     ITempVoiceChannelsService channelsService,
