@@ -8,6 +8,10 @@ public static class Extensions
 {
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        /// <summary>
+        /// Registers <see cref="WispDbContext"/> against the <c>database</c> connection string, with snake_case
+        /// table and column names.
+        /// </summary>
         public TBuilder AddPersistence()
         {
             builder.AddNpgsqlDbContext<WispDbContext>(
@@ -20,6 +24,9 @@ public static class Extensions
 
     extension<THost>(THost host) where THost : IHost
     {
+        /// <summary>
+        /// Applies pending EF Core migrations. Runs at startup, before the bot connects.
+        /// </summary>
         public async Task<IHost> MigrateDatabaseAsync()
         {
             await using var scope = host.Services.CreateAsyncScope();

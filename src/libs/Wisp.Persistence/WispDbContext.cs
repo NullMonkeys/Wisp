@@ -7,6 +7,10 @@ using Wisp.Persistence.Entities;
 
 namespace Wisp.Persistence;
 
+/// <summary>
+/// The bot's database. Discord IDs are <see cref="ulong"/> in code but stored as <c>bigint</c> (Postgres has no
+/// unsigned integers), and entity configurations are picked up from this assembly automatically.
+/// </summary>
 public sealed class WispDbContext(DbContextOptions<WispDbContext> options) : DbContext(options)
 {
     public DbSet<Guild> Guilds => Set<Guild>();
