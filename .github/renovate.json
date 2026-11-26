@@ -1,0 +1,43 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":disableDependencyDashboard",
+    "helpers:pinGitHubActionDigests",
+    "docker:pinDigests"
+  ],
+  "enabledManagers": ["nuget", "github-actions", "dockerfile"],
+  "reviewers": ["magicman517"],
+  "prConcurrentLimit": 10,
+  "automerge": false,
+  "packageRules": [
+    {
+      "matchDatasources": ["nuget"],
+      "matchPackageNames": ["NetCord", "NetCord.*"],
+      "groupName": "NetCord"
+    },
+    {
+      "matchDatasources": ["nuget"],
+      "matchPackageNames": ["Aspire.Hosting.*", "aspire.cli"],
+      "groupName": "Aspire hosting and CLI"
+    },
+    {
+      "matchDatasources": ["nuget"],
+      "matchPackageNames": ["OpenTelemetry.*"],
+      "groupName": "OpenTelemetry"
+    },
+    {
+      "matchDatasources": ["dotnet-version"],
+      "allowedVersions": "/^10\\./"
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": [
+        "mcr.microsoft.com/dotnet/sdk",
+        "mcr.microsoft.com/dotnet/aspnet"
+      ],
+      "allowedVersions": "/^10\\.0(?:$|[.-])/",
+      "groupName": ".NET 10 base images"
+    }
+  ]
+}
