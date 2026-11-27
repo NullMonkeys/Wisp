@@ -34,7 +34,14 @@ If Discord no longer accepts saved settings, for example a bitrate above what th
 
 New channels start with the category's permissions. To control who can see and join temporary channels, set that up on the **Temporary Voice** category.
 
-Saved permission changes are stored as differences from the category, so if you change the category later, members' next channels still pick it up.
+Members' saved permissions are kept per role or member, and only for the ones they changed. If you change the category's permissions later:
+
+- for roles and members a member never changed in their own channel, their next channel follows the category's new permissions;
+- for a role or member they did change, their saved permissions for it win, so your category change doesn't reach their next channel.
+
+::: warning
+This matters most when you restrict access. If you hide temporary channels from a role on the category, a member who changed that role's permissions in their own channel keeps their old setting for it, and their next channel can stay visible to that role.
+:::
 
 Wisp needs **Manage Channels**, **Manage Roles** and **Move Members** for this feature, plus **View Channels**, **Connect**, **Speak**, **Mute Members** and **Deafen Members** to hand them to owners. The [invite link](../guide/getting-started#_3-invite-it) asks for all of them.
 

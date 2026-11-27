@@ -68,7 +68,7 @@ jobs:
 
   docs:
     name: Docs
-    needs: test
+    needs: [test, image]
     if: ${{ !contains(github.ref, '-') }}
     uses: ./.github/workflows/docs.yml
     permissions:

@@ -30,4 +30,6 @@ The container image already checks `/readyz` every 30 seconds, so `docker ps` an
 
 ## Data
 
-Wisp stores each server's settings, the temporary channels it's tracking and the channel settings members chose. When Wisp is removed from a server, everything it stored about that server is deleted.
+Wisp stores each server's name and settings, the temporary channels it's tracking and the channel settings members chose.
+
+When Wisp is removed from a server while it's running, everything it stored about that server is deleted. Discord only announces a removal once, so if Wisp was stopped at the time, that server's data stays in the database. It's never used again unless Wisp is added back, in which case the old settings come back too.

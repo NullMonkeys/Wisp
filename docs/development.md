@@ -38,7 +38,12 @@ Tests run against a real Postgres, which Aspire starts in Docker, so Docker has 
 
 ## Docs
 
-The docs are a [VitePress](https://vitepress.dev) site in `docs/`:
+The docs are a [VitePress](https://vitepress.dev) site in `docs/`. They need two more tools:
+
+- [Node.js](https://nodejs.org) 26. The version CI uses is in `docs/.node-version`, which version managers like fnm, nvm and mise pick up.
+- [pnpm](https://pnpm.io/installation). Any recent version works: it switches to the version pinned in `docs/package.json` (12.15.0) on its own.
+
+Then:
 
 ```sh
 cd docs
@@ -48,4 +53,4 @@ pnpm dev
 
 ## Releases
 
-Pushing a `v*.*.*` tag runs the tests, then builds and publishes the container image and creates a GitHub release. Stable versions also publish these docs. Versions with a suffix, like `v1.0.0-beta.1`, are prereleases: they get an image and a release, but don't update `latest` or the docs.
+Pushing a `v*.*.*` tag runs the tests, then builds and publishes the container image and creates a GitHub release. Stable versions also publish these docs, once the image is out, since they show its tag. Versions with a suffix, like `v1.0.0-beta.1`, are prereleases: they get an image and a release, but don't update `latest` or the docs.
