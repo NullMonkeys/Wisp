@@ -23,9 +23,11 @@ public class JoinRolesComponentsModule(
         ArgumentNullException.ThrowIfNull(Context.Guild);
         var guildId = Context.Guild.Id;
 
+        await RespondAsync(InteractionCallback.DeferredModifyMessage);
+
         var result = await settingsService.SetRolesAsync(guildId, [.. Context.SelectedValues.Select(r => r.Id)]);
         var card = JoinRolesCards.Settings(result.Config, guildState.GetBot(guildId), result.Rejected);
 
-        await RespondAsync(InteractionCallback.ModifyMessage(m => m.Components = [card]));
+        await ModifyResponseAsync(m => m.Components = [card]);
     }
 }

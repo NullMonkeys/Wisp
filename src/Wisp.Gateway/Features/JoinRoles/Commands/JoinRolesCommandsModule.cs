@@ -22,6 +22,7 @@ public class JoinRolesCommandsModule(
     {
         ArgumentNullException.ThrowIfNull(Context.Guild);
         var guildId = Context.Guild.Id;
+        await DeferAsync();
 
         var config = await settingsService.GetAsync(guildId);
         await ReplyAsync(JoinRolesCards.Settings(config, guildState.GetBot(guildId)));

@@ -22,6 +22,7 @@ public class TempVoiceCommandsModule(
     {
         ArgumentNullException.ThrowIfNull(Context.Guild);
         var guildId = Context.Guild.Id;
+        await DeferAsync();
 
         var config = await settingsService.GetAsync(guildId);
         var activeChannels = await channelsService.CountActiveAsync(guildId);

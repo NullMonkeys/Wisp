@@ -32,10 +32,12 @@ public class JoinRolesButtonsModule(
         ArgumentNullException.ThrowIfNull(Context.Guild);
         var guildId = Context.Guild.Id;
 
+        await RespondAsync(InteractionCallback.DeferredModifyMessage);
+
         // enable does nothing if the roles were cleared from another card; the redraw then shows it disabled
         var config = await action(guildId, CancellationToken.None);
         var card = JoinRolesCards.Settings(config, guildState.GetBot(guildId));
 
-        await RespondAsync(InteractionCallback.ModifyMessage(m => m.Components = [card]));
+        await ModifyResponseAsync(m => m.Components = [card]);
     }
 }
