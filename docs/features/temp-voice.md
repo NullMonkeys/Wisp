@@ -23,6 +23,15 @@ In their own channel, the owner can:
 - rename it, and change the user limit, bitrate and region
 - edit its permissions, for example to lock it or let only friends in
 - mute, deafen, move and disconnect people
+- [hand the channel over](#handing-over-your-channel) to someone else in it
+
+### Handing over your channel
+
+Leaving, but the others are staying? Right-click someone in your channel and choose **Apps → Make temp channel owner**. They become the owner, with all the rights above, and you go back to being a regular member of the channel. Wisp posts in the channel's chat to let everyone know.
+
+- The new owner has to be in your channel, and can't already own a temporary channel of their own.
+- The channel keeps its name and settings. They're still remembered for you, not the new owner; from then on, changes the new owner makes are remembered for them.
+- Once you've handed your channel over, joining **[+] Create channel** gives you a new one.
 
 ### Remembered settings
 
@@ -43,7 +52,7 @@ Members' saved permissions are kept per role or member, and only for the ones th
 This matters most when you restrict access. If you hide temporary channels from a role on the category, a member who changed that role's permissions in their own channel keeps their old setting for it, and their next channel can stay visible to that role.
 :::
 
-Wisp needs **Manage Channels**, **Manage Roles** and **Move Members** for this feature, plus **View Channels**, **Connect**, **Speak**, **Mute Members** and **Deafen Members** to hand them to owners. The [invite link](../guide/getting-started#_3-invite-it) asks for all of them.
+Wisp needs **Manage Channels**, **Manage Roles** and **Move Members** for this feature, plus **View Channels**, **Connect**, **Speak**, **Mute Members** and **Deafen Members** to hand them to owners. With **Send Messages** it also announces handovers in the channel's chat; without it, handovers still work, just quietly. The [invite link](../guide/getting-started#_3-invite-it) asks for all of them.
 
 ## Turning it off
 

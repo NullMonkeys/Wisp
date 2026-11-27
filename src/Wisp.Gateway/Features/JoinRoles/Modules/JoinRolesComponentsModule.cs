@@ -5,7 +5,7 @@ using NetCord.Rest;
 using NetCord.Services;
 using NetCord.Services.ComponentInteractions;
 
-namespace Wisp.Gateway.Features.JoinRoles.Commands;
+namespace Wisp.Gateway.Features.JoinRoles.Modules;
 
 /// <summary>
 /// The role select on the <c>/join-roles</c> card. It saves on every change and redraws the card in place.

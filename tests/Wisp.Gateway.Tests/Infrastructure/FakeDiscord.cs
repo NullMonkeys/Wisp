@@ -13,11 +13,16 @@ public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
     private readonly Dictionary<ulong, FakeChannel> _channels = [];
     private readonly Dictionary<(ulong GuildId, ulong UserId), ulong> _voice = [];
     private readonly List<(Func<GuildChannelProperties, bool> When, Exception Exception)> _createFailures = [];
+    private readonly List<(ulong ChannelId, MessageProperties Message)> _messages = [];
     private int _createdCount;
 
     public ulong BotId { get; } = TestIds.Next();
 
     public bool FailMoves { get; set; }
+
+    public bool FailOverwriteUpdates { get; set; }
+
+    public bool FailMessages { get; set; }
 
     public int CreatedCount
     {
@@ -90,6 +95,11 @@ public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
             return [.. _voice.Where(v => v.Key.GuildId == guildId).Select(v => v.Value)];
     }
 
+    public IReadOnlyList<(ulong ChannelId, MessageProperties Message)> Messages
+    {
+        get { lock (_lock) return [.. _messages]; }
+    }
+
     public TempChannelSettings SettingsOf(ulong channelId)
     {
         var channel = Channel(channelId) ?? throw new InvalidOperationException($"Channel {channelId} doesn't exist.");
@@ -114,9 +124,7 @@ public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
             }
 
             var id = TestIds.Next();
-            var overwrites = channel.PermissionOverwrites?
-                .Select(o => new PermissionOverwriteSnapshot(o.Id, o.Type, o.Allowed ?? default, o.Denied ?? default))
-                .ToArray() ?? [];
+            var overwrites = channel.PermissionOverwrites is { } given ? ToSnapshots(given) : [];
 
             _channels[id] = new FakeChannel(guildId, id, channel.Name, channel.Type, channel.ParentId, overwrites,
                 channel.UserLimit, channel.Bitrate);
@@ -153,6 +161,34 @@ public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
         }
     }
 
+    public Task SetPermissionOverwritesAsync(ulong channelId, IEnumerable<PermissionOverwriteProperties> overwrites,
+        CancellationToken ct = default)
+    {
+        lock (_lock)
+        {
+            if (FailOverwriteUpdates)
+                return Task.FromException(new RestException(HttpStatusCode.Forbidden, "Missing Permissions"));
+
+            if (!_channels.TryGetValue(channelId, out var channel))
+                return Task.FromException(new RestException(HttpStatusCode.NotFound, "Unknown Channel"));
+
+            _channels[channelId] = channel with { Overwrites = ToSnapshots(overwrites) };
+            return Task.CompletedTask;
+        }
+    }
+
+    public Task SendMessageAsync(ulong channelId, MessageProperties message, CancellationToken ct = default)
+    {
+        lock (_lock)
+        {
+            if (FailMessages)
+                return Task.FromException(new RestException(HttpStatusCode.Forbidden, "Missing Permissions"));
+
+            _messages.Add((channelId, message));
+            return Task.CompletedTask;
+        }
+    }
+
     #endregion
 
     #region ITempVoiceGuildState
@@ -175,7 +211,13 @@ public sealed class FakeDiscord : ITempVoiceDiscord, ITempVoiceGuildState
             return _voice.Any(v => v.Key.GuildId == guildId && v.Value == channelId && v.Key.UserId != exceptUserId);
     }
 
+    public ulong? GetVoiceChannelId(ulong guildId, ulong userId)
+        => ChannelOf(guildId, userId);
+
     #endregion
+
+    private static PermissionOverwriteSnapshot[] ToSnapshots(IEnumerable<PermissionOverwriteProperties> overwrites)
+        => [.. overwrites.Select(o => new PermissionOverwriteSnapshot(o.Id, o.Type, o.Allowed ?? default, o.Denied ?? default))];
 
     private bool RemoveChannel(ulong channelId)
     {

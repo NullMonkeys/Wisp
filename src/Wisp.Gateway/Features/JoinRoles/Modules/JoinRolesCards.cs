@@ -4,7 +4,7 @@ using NetCord.Rest;
 using Wisp.Discord.Components;
 using Wisp.Persistence.Entities;
 
-namespace Wisp.Gateway.Features.JoinRoles.Commands;
+namespace Wisp.Gateway.Features.JoinRoles.Modules;
 
 internal static class JoinRolesCards
 {

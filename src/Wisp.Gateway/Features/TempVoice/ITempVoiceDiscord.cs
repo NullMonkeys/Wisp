@@ -8,18 +8,28 @@ public interface ITempVoiceDiscord
         ulong guildId,
         GuildChannelProperties channel,
         CancellationToken ct = default);
-    
+
     Task<bool> ChannelExistsAsync(
         ulong channelId,
         CancellationToken ct = default);
-    
+
     Task<bool> DeleteChannelIfExistsAsync(
         ulong channelId,
         CancellationToken ct = default);
-    
+
     Task MoveUserAsync(
         ulong guildId,
         ulong userId,
         ulong channelId,
+        CancellationToken ct = default);
+
+    Task SetPermissionOverwritesAsync(
+        ulong channelId,
+        IEnumerable<PermissionOverwriteProperties> overwrites,
+        CancellationToken ct = default);
+
+    Task SendMessageAsync(
+        ulong channelId,
+        MessageProperties message,
         CancellationToken ct = default);
 }

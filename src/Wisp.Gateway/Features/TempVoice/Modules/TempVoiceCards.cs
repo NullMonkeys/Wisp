@@ -4,7 +4,7 @@ using NetCord.Rest;
 using Wisp.Discord.Components;
 using Wisp.Persistence.Entities;
 
-namespace Wisp.Gateway.Features.TempVoice.Commands;
+namespace Wisp.Gateway.Features.TempVoice.Modules;
 
 internal static class TempVoiceCards
 {
@@ -34,4 +34,22 @@ internal static class TempVoiceCards
             ],
         };
     }
+
+    public static ComponentContainerProperties Transfer(TransferResult result, ulong targetId) => result.Status switch
+    {
+        TransferStatus.Transferred
+            => Cards.Success("Channel handed over", $"<#{result.ChannelId}> now belongs to <@{targetId}>."),
+        TransferStatus.NotOwner
+            => Cards.Warning("Can't do that", "You don't own a temporary voice channel."),
+        TransferStatus.TargetIsOwner
+            => Cards.Warning("Can't do that", "Pick someone else in your channel to hand it over to."),
+        TransferStatus.TargetNotInChannel
+            => Cards.Warning("Can't do that", $"<@{targetId}> needs to be in <#{result.ChannelId}> first."),
+        TransferStatus.TargetOwnsChannel
+            => Cards.Warning("Can't do that", $"<@{targetId}> already has their own channel."),
+        _ => throw new ArgumentOutOfRangeException(nameof(result), result.Status, null),
+    };
+
+    public static ComponentContainerProperties BotCantOwn()
+        => Cards.Warning("Can't do that", "Bots can't own channels.");
 }

@@ -30,4 +30,11 @@ internal sealed class TempVoiceDiscord(RestClient restClient) : ITempVoiceDiscor
 
     public Task MoveUserAsync(ulong guildId, ulong userId, ulong channelId, CancellationToken ct = default)
         => restClient.ModifyGuildUserAsync(guildId, userId, u => u.ChannelId = channelId, cancellationToken: ct);
+
+    public Task SetPermissionOverwritesAsync(ulong channelId, IEnumerable<PermissionOverwriteProperties> overwrites,
+        CancellationToken ct = default)
+        => restClient.ModifyGuildChannelAsync(channelId, c => c.PermissionOverwrites = overwrites, cancellationToken: ct);
+
+    public Task SendMessageAsync(ulong channelId, MessageProperties message, CancellationToken ct = default)
+        => restClient.SendMessageAsync(channelId, message, cancellationToken: ct);
 }

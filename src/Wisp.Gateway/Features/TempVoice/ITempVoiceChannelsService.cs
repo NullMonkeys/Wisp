@@ -8,23 +8,29 @@ public interface ITempVoiceChannelsService
         ulong channelId,
         string? displayName,
         CancellationToken ct = default);
-    
+
     Task UserLeftAsync(
         ulong guildId,
         ulong channelId,
         ulong userId,
         CancellationToken ct = default);
-    
+
     Task SavePreferencesAsync(
         ulong channelId,
         TempChannelSettings before,
         TempChannelSettings after,
         CancellationToken ct = default);
-    
+
+    Task<TransferResult> TransferOwnershipAsync(
+        ulong guildId,
+        ulong ownerId,
+        ulong newOwnerId,
+        CancellationToken ct = default);
+
     Task<bool> ForgetChannelAsync(
         ulong channelId,
         CancellationToken ct = default);
-    
+
     Task DeleteAllAsync(
         ulong guildId,
         CancellationToken ct = default);
@@ -32,7 +38,7 @@ public interface ITempVoiceChannelsService
     Task<int> CountActiveAsync(
         ulong guildId,
         CancellationToken ct = default);
-    
+
     Task ReconcileAsync(
         ulong guildId,
         IReadOnlySet<ulong> existingChannelIds,

@@ -95,6 +95,10 @@ public sealed class TempVoiceHarness : IAsyncDisposable
         await InScope<ITempVoiceChannelsService>(s => s.UserLeftAsync(GuildId, channelId, userId, Ct));
     }
 
+    public Task<TransferResult> TransferAsync(ulong ownerId, ulong newOwnerId)
+        => InScope<ITempVoiceChannelsService, TransferResult>(s =>
+            s.TransferOwnershipAsync(GuildId, ownerId, newOwnerId, Ct));
+
     public Task SavePreferencesAsync(ulong channelId, TempChannelSettings before, TempChannelSettings after)
         => InScope<ITempVoiceChannelsService>(s => s.SavePreferencesAsync(channelId, before, after, Ct));
 

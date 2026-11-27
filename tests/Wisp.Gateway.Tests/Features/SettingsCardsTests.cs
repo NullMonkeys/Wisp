@@ -1,8 +1,8 @@
 using NetCord.Rest;
 
 using Wisp.Gateway.Features.JoinRoles;
-using Wisp.Gateway.Features.JoinRoles.Commands;
-using Wisp.Gateway.Features.TempVoice.Commands;
+using Wisp.Gateway.Features.JoinRoles.Modules;
+using Wisp.Gateway.Features.TempVoice.Modules;
 using Wisp.Persistence.Entities;
 
 namespace Wisp.Gateway.Tests.Features;
