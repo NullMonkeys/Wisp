@@ -12,7 +12,7 @@ internal sealed partial class GuildsService(
     {
         var affected = await dbContext
             .Database
-            .ExecuteSqlInterpolatedAsync($"""
+            .ExecuteSqlAsync($"""
                                           INSERT INTO guilds (id, name, created_at, updated_at)
                                           VALUES ({(long)id}, {name}, now(), now())
                                           ON CONFLICT (id) DO UPDATE
