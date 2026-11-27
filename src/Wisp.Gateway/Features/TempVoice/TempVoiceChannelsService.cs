@@ -95,6 +95,9 @@ internal sealed partial class TempVoiceChannelsService(
         LogCreated(tempChannelId, guildId, userId);
     }
 
+    public Task<int> CountActiveAsync(ulong guildId, CancellationToken ct = default)
+        => dbContext.TempChannels.CountAsync(t => t.GuildId == guildId, ct);
+
     public async Task UserLeftAsync(ulong guildId, ulong channelId, ulong userId, CancellationToken ct = default)
     {
         var tempChannel = await dbContext.TempChannels

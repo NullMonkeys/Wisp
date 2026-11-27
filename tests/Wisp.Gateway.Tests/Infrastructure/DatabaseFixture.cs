@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Wisp.Gateway.Features.Guilds;
+using Wisp.Gateway.Features.JoinRoles;
 using Wisp.Gateway.Features.TempVoice;
 using Wisp.Persistence;
 
@@ -42,6 +43,7 @@ public sealed class DatabaseFixture : IAsyncLifetime
         builder.AddPersistence();
         builder.Services.AddGuilds();
         builder.Services.AddTempVoice();
+        builder.Services.AddJoinRoles();
 
         configureServices?.Invoke(builder.Services);
 

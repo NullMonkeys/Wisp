@@ -28,6 +28,10 @@ public interface ITempVoiceChannelsService
     Task DeleteAllAsync(
         ulong guildId,
         CancellationToken ct = default);
+
+    Task<int> CountActiveAsync(
+        ulong guildId,
+        CancellationToken ct = default);
     
     Task ReconcileAsync(
         ulong guildId,

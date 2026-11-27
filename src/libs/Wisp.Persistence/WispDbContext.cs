@@ -13,6 +13,7 @@ public sealed class WispDbContext(DbContextOptions<WispDbContext> options) : DbC
     public DbSet<TempVoiceConfig> TempVoiceConfigs => Set<TempVoiceConfig>();
     public DbSet<TempChannel> TempChannels => Set<TempChannel>();
     public DbSet<TempVoicePreferences> TempVoicePreferences => Set<TempVoicePreferences>();
+    public DbSet<JoinRolesConfig> JoinRolesConfigs => Set<JoinRolesConfig>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

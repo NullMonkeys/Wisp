@@ -73,26 +73,6 @@ public sealed class TempVoiceSettingsTests(DatabaseFixture database)
     }
 
     [Fact]
-    public async Task Enable_with_force_replaces_channels_and_removes_existing_temp_channels()
-    {
-        // Arrange
-        await using var h = await TempVoiceHarness.CreateAsync(database);
-        var old = await h.EnableAsync();
-        var tempChannelId = await h.JoinAsync(TestIds.Next(), old.MasterChannelId!.Value);
-
-        // Act
-        var replaced = await h.EnableAsync(force: true);
-
-        // Assert
-        Assert.NotEqual(old.CategoryId, replaced.CategoryId);
-        Assert.NotEqual(old.MasterChannelId, replaced.MasterChannelId);
-        Assert.Null(h.Discord.Channel(old.CategoryId!.Value));
-        Assert.Null(h.Discord.Channel(old.MasterChannelId!.Value));
-        Assert.Null(h.Discord.Channel(tempChannelId!.Value));
-        Assert.Empty(await h.TempChannelsAsync());
-    }
-
-    [Fact]
     public async Task Enable_when_master_channel_creation_fails_removes_the_category_and_saves_nothing()
     {
         // Arrange

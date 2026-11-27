@@ -10,7 +10,6 @@ public interface ITempVoiceSettingsService
     
     Task<TempVoiceConfig> EnableAsync(
         ulong guildId,
-        bool force,
         CancellationToken ct = default);
     
     Task<TempVoiceConfig> DisableAsync(

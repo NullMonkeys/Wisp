@@ -48,6 +48,38 @@ namespace Wisp.Persistence.Migrations
                     b.ToTable("guilds", (string)null);
                 });
 
+            modelBuilder.Entity("Wisp.Persistence.Entities.JoinRolesConfig", b =>
+                {
+                    b.Property<long>("GuildId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("guild_id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("enabled");
+
+                    b.PrimitiveCollection<long[]>("RoleIds")
+                        .IsRequired()
+                        .HasColumnType("bigint[]")
+                        .HasColumnName("role_ids");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("GuildId")
+                        .HasName("pk_join_roles_configs");
+
+                    b.ToTable("join_roles_configs", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_join_roles_configs_role_limit", "cardinality(role_ids) <= 25");
+                        });
+                });
+
             modelBuilder.Entity("Wisp.Persistence.Entities.TempChannel", b =>
                 {
                     b.Property<long>("ChannelId")
@@ -157,6 +189,18 @@ namespace Wisp.Persistence.Migrations
                         .HasName("pk_temp_voice_preferences");
 
                     b.ToTable("temp_voice_preferences", (string)null);
+                });
+
+            modelBuilder.Entity("Wisp.Persistence.Entities.JoinRolesConfig", b =>
+                {
+                    b.HasOne("Wisp.Persistence.Entities.Guild", "Guild")
+                        .WithOne()
+                        .HasForeignKey("Wisp.Persistence.Entities.JoinRolesConfig", "GuildId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_join_roles_configs_guilds_guild_id");
+
+                    b.Navigation("Guild");
                 });
 
             modelBuilder.Entity("Wisp.Persistence.Entities.TempChannel", b =>

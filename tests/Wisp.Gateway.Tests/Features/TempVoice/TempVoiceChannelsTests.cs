@@ -68,6 +68,25 @@ public sealed class TempVoiceChannelsTests(DatabaseFixture database)
     }
 
     [Fact]
+    public async Task Active_count_follows_temp_channels_being_created_and_emptied()
+    {
+        // Arrange
+        await using var h = await TempVoiceHarness.CreateAsync(database);
+        var master = await h.EnableAndGetMasterAsync();
+        var alice = TestIds.Next();
+        await h.JoinAsync(alice, master);
+        await h.JoinAsync(TestIds.Next(), master);
+
+        // Act
+        var whileBothActive = await h.CountActiveAsync();
+        await h.LeaveAsync(alice);
+
+        // Assert
+        Assert.Equal(2, whileBothActive);
+        Assert.Equal(1, await h.CountActiveAsync());
+    }
+
+    [Fact]
     public async Task Joining_a_regular_channel_does_nothing()
     {
         // Arrange
