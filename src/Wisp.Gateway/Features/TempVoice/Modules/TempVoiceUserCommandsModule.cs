@@ -23,6 +23,7 @@ public class TempVoiceUserCommandsModule(ITempVoiceChannelsService channelsServi
             return;
         }
 
+        await DeferAsync();
         var result = await channelsService.TransferOwnershipAsync(Context.Guild.Id, Context.User.Id, target.Id);
         await ReplyAsync(TempVoiceCards.Transfer(result, target.Id));
     }
