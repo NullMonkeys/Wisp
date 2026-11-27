@@ -71,7 +71,7 @@ The Wisp image has its own health check, so there's no `healthcheck` for it abov
 Find your **Application ID** under **General Information** in the developer portal, put it into this link and open it:
 
 ```
-https://discord.com/oauth2/authorize?client_id=YOUR_APPLICATION_ID&scope=bot+applications.commands&permissions=300942352
+https://discord.com/oauth2/authorize?client_id=YOUR_APPLICATION_ID&scope=bot+applications.commands&permissions=300944400
 ```
 
 That asks for these permissions:
@@ -82,6 +82,7 @@ That asks for these permissions:
 | Manage Roles                                                | Give join roles, and set permissions on temporary channels                            |
 | Move Members                                                | Move people into their new channel                                                    |
 | View Channels, Connect, Speak, Mute Members, Deafen Members | Hand these to channel owners. Discord only lets a bot grant permissions it has itself |
+| Send Messages                                               | Announce the new owner in a temporary channel's chat when it's handed over           |
 
 ::: tip
 Wisp can only give out roles that sit **below its own role**. After inviting it, open **Server Settings → Roles** and drag Wisp's role above any role you want it to hand out.

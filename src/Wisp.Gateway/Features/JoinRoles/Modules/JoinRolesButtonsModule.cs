@@ -7,36 +7,36 @@ using NetCord.Services.ComponentInteractions;
 
 using Wisp.Persistence.Entities;
 
-namespace Wisp.Gateway.Features.TempVoice.Commands;
+namespace Wisp.Gateway.Features.JoinRoles.Modules;
 
 /// <summary>
-/// The Enable / Disable button on the <c>/temp-voice</c> card. Both create or delete channels, which can outlast
-/// Discord's 3-second reply window, so they defer first and redraw the card afterwards.
+/// The Enable / Disable button on the <c>/join-roles</c> card. Both only touch the database, so they redraw the
+/// card straight away.
 /// </summary>
 [UsedImplicitly]
 [RequireUserPermissions<ButtonInteractionContext>(Permissions.Administrator)]
-public class TempVoiceButtonsModule(
-    ITempVoiceSettingsService settingsService,
-    ITempVoiceChannelsService channelsService) : ComponentInteractionModule<ButtonInteractionContext>
+public class JoinRolesButtonsModule(
+    IJoinRolesSettingsService settingsService,
+    IJoinRolesGuildState guildState) : ComponentInteractionModule<ButtonInteractionContext>
 {
     [UsedImplicitly]
-    [ComponentInteraction(TempVoiceCards.EnableId)]
+    [ComponentInteraction(JoinRolesCards.EnableId)]
     public Task Enable() => UpdateAsync(settingsService.EnableAsync);
 
     [UsedImplicitly]
-    [ComponentInteraction(TempVoiceCards.DisableId)]
+    [ComponentInteraction(JoinRolesCards.DisableId)]
     public Task Disable() => UpdateAsync(settingsService.DisableAsync);
 
-    private async Task UpdateAsync(Func<ulong, CancellationToken, Task<TempVoiceConfig>> action)
+    private async Task UpdateAsync(Func<ulong, CancellationToken, Task<JoinRolesConfig>> action)
     {
         ArgumentNullException.ThrowIfNull(Context.Guild);
         var guildId = Context.Guild.Id;
 
         await RespondAsync(InteractionCallback.DeferredModifyMessage);
 
+        // enable does nothing if the roles were cleared from another card; the redraw then shows it disabled
         var config = await action(guildId, CancellationToken.None);
-        var activeChannels = await channelsService.CountActiveAsync(guildId);
-        var card = TempVoiceCards.Settings(config, activeChannels);
+        var card = JoinRolesCards.Settings(config, guildState.GetBot(guildId));
 
         await ModifyResponseAsync(m => m.Components = [card]);
     }

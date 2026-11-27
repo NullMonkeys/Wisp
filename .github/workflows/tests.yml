@@ -2,7 +2,7 @@ name: Tests
 
 on:
   push:
-    branches: ['**'] # tags run tests through the release workflow
+    branches: [main]
   pull_request:
   workflow_dispatch:
   workflow_call:

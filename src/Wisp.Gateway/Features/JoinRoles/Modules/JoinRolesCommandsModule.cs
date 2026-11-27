@@ -6,26 +6,25 @@ using NetCord.Services.ApplicationCommands;
 
 using Wisp.Discord.Interactions;
 
-namespace Wisp.Gateway.Features.TempVoice.Commands;
+namespace Wisp.Gateway.Features.JoinRoles.Modules;
 
 [UsedImplicitly]
 [RequireUserPermissions<ApplicationCommandContext>(Permissions.Administrator)]
-public class TempVoiceCommandsModule(
-    ITempVoiceSettingsService settingsService,
-    ITempVoiceChannelsService channelsService) : WispCommandModule
+public class JoinRolesCommandsModule(
+    IJoinRolesSettingsService settingsService,
+    IJoinRolesGuildState guildState) : WispCommandModule
 {
     [UsedImplicitly]
-    [SlashCommand("temp-voice", "Temporary voice channels",
+    [SlashCommand("join-roles", "Roles given to new members",
         Contexts = [InteractionContextType.Guild],
         DefaultGuildPermissions = Permissions.Administrator)]
-    public async Task ShowTempVoice()
+    public async Task ShowJoinRoles()
     {
         ArgumentNullException.ThrowIfNull(Context.Guild);
         var guildId = Context.Guild.Id;
         await DeferAsync();
 
         var config = await settingsService.GetAsync(guildId);
-        var activeChannels = await channelsService.CountActiveAsync(guildId);
-        await ReplyAsync(TempVoiceCards.Settings(config, activeChannels));
+        await ReplyAsync(JoinRolesCards.Settings(config, guildState.GetBot(guildId)));
     }
 }

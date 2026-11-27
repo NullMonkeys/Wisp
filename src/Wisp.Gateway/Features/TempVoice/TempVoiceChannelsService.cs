@@ -199,6 +199,65 @@ internal sealed partial class TempVoiceChannelsService(
         LogPreferencesSaved(ownerId, guildId);
     }
 
+    public async Task<TransferResult> TransferOwnershipAsync(ulong guildId, ulong ownerId, ulong newOwnerId,
+        CancellationToken ct = default)
+    {
+        if (ownerId == newOwnerId)
+            return new TransferResult(TransferStatus.TargetIsOwner);
+
+        var (first, second) = ownerId < newOwnerId ? (ownerId, newOwnerId) : (newOwnerId, ownerId);
+        using var firstLock = await OwnerLocks.AcquireAsync((guildId, first), ct);
+        using var secondLock = await OwnerLocks.AcquireAsync((guildId, second), ct);
+
+        var tempChannel = await dbContext.TempChannels
+            .FirstOrDefaultAsync(t => t.GuildId == guildId && t.OwnerId == ownerId, ct);
+
+        if (tempChannel is null || !guildState.ChannelExists(guildId, tempChannel.ChannelId))
+            return new TransferResult(TransferStatus.NotOwner);
+
+        var channelId = tempChannel.ChannelId;
+
+        if (guildState.GetVoiceChannelId(guildId, newOwnerId) != channelId)
+            return new TransferResult(TransferStatus.TargetNotInChannel, channelId);
+
+        var targetsChannel = await dbContext.TempChannels
+            .FirstOrDefaultAsync(t => t.GuildId == guildId && t.OwnerId == newOwnerId, ct);
+
+        if (targetsChannel is not null)
+        {
+            if (guildState.ChannelExists(guildId, targetsChannel.ChannelId))
+                return new TransferResult(TransferStatus.TargetOwnsChannel, channelId);
+
+            dbContext.TempChannels.Remove(targetsChannel);
+        }
+
+        var overwrites = guildState.GetPermissionOverwrites(guildId, channelId)
+            .Where(o => o.Id != ownerId && o.Id != newOwnerId)
+            .Select(o => new PermissionOverwriteProperties(o.Id, o.Type) { Allowed = o.Allowed, Denied = o.Denied })
+            .Append(new PermissionOverwriteProperties(newOwnerId, PermissionOverwriteType.User) { Allowed = OwnerPermissions })
+            .ToList();
+
+        tempChannel.OwnerId = newOwnerId;
+        await dbContext.SaveChangesAsync(ct);
+
+        try
+        {
+            await discord.SetPermissionOverwritesAsync(channelId, overwrites, ct);
+        }
+        catch
+        {
+            tempChannel.OwnerId = ownerId;
+            await dbContext.SaveChangesAsync(CancellationToken.None);
+            throw;
+        }
+
+        LogTransferred(channelId, guildId, ownerId, newOwnerId);
+
+        await TryAnnounceTransferAsync(channelId, ownerId, newOwnerId);
+
+        return new TransferResult(TransferStatus.Transferred, channelId);
+    }
+
     public async Task<bool> ForgetChannelAsync(ulong channelId, CancellationToken ct = default)
     {
         var affected = await dbContext.TempChannels
@@ -317,7 +376,37 @@ internal sealed partial class TempVoiceChannelsService(
 
     private HashSet<PermissionOverwriteSnapshot> UserOverwrites(IEnumerable<PermissionOverwriteSnapshot> overwrites,
         ulong ownerId)
-        => [.. overwrites.Where(o => o.Id != ownerId && o.Id != guildState.BotId)];
+        => [.. overwrites.Where(o => o.Id != ownerId && o.Id != guildState.BotId && !IsOwnerGrant(o))];
+
+    private static bool IsOwnerGrant(PermissionOverwriteSnapshot overwrite)
+        => overwrite.Type == PermissionOverwriteType.User
+           && overwrite.Allowed == OwnerPermissions
+           && overwrite.Denied == default;
+
+    private async Task TryAnnounceTransferAsync(ulong channelId, ulong previousOwnerId, ulong newOwnerId)
+    {
+        var message = new MessageProperties
+        {
+            Content = $"⇄ <@{previousOwnerId}> handed this channel over to <@{newOwnerId}>.",
+            AllowedMentions = new AllowedMentionsProperties
+            {
+                Everyone = false,
+                AllowedRoles = [],
+                AllowedUsers = [newOwnerId],
+                ReplyMention = false,
+            },
+        };
+
+        try
+        {
+            await discord.SendMessageAsync(channelId, message);
+        }
+        catch (RestException e)
+        {
+            // transfer already happened; missing announcement isn't worth failing it over
+            LogAnnouncementFailed(e, channelId);
+        }
+    }
 
     private async Task<bool> TryMoveUserAsync(ulong guildId, ulong userId, ulong channelId, CancellationToken ct)
     {
@@ -353,6 +442,12 @@ internal sealed partial class TempVoiceChannelsService(
 
     [LoggerMessage(LogLevel.Debug, "Saved temp voice preferences for user {UserId} in guild {GuildId}")]
     partial void LogPreferencesSaved(ulong userId, ulong guildId);
+
+    [LoggerMessage(LogLevel.Debug, "Temp channel {ChannelId} in guild {GuildId} transferred from user {PreviousOwnerId} to user {NewOwnerId}")]
+    partial void LogTransferred(ulong channelId, ulong guildId, ulong previousOwnerId, ulong newOwnerId);
+
+    [LoggerMessage(LogLevel.Debug, "Couldn't announce the new owner in temp channel {ChannelId}")]
+    partial void LogAnnouncementFailed(Exception exception, ulong channelId);
 
     [LoggerMessage(LogLevel.Information, "Cleaned up {Count} stale temp channel(s) in guild {GuildId}")]
     partial void LogReconciled(ulong guildId, int count);

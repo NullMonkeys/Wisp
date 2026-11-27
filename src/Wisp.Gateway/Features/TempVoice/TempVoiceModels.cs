@@ -26,3 +26,22 @@ public sealed record TempChannelSettings(
         => new(channel.Name, channel.UserLimit, channel.Bitrate, channel.ParentId,
             PermissionOverwriteSnapshot.From(channel.PermissionOverwrites));
 }
+
+public enum TransferStatus
+{
+    Transferred,
+
+    /// <summary>The caller doesn't own a temp channel in this guild.</summary>
+    NotOwner,
+
+    /// <summary>The caller tried to hand their channel to themselves.</summary>
+    TargetIsOwner,
+
+    /// <summary>The new owner isn't connected to the channel being handed over.</summary>
+    TargetNotInChannel,
+
+    /// <summary>The new owner already owns another temp channel; nobody can own two.</summary>
+    TargetOwnsChannel,
+}
+
+public readonly record struct TransferResult(TransferStatus Status, ulong? ChannelId = null);
