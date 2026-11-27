@@ -1,0 +1,29 @@
+using JetBrains.Annotations;
+
+using NetCord;
+using NetCord.Services;
+using NetCord.Services.ApplicationCommands;
+
+using Wisp.Discord;
+
+namespace Wisp.Gateway.Features.JoinRoles.Commands;
+
+[UsedImplicitly]
+[RequireUserPermissions<ApplicationCommandContext>(Permissions.Administrator)]
+public class JoinRolesCommandsModule(
+    IJoinRolesSettingsService settingsService,
+    IJoinRolesGuildState guildState) : WispCommandModule
+{
+    [UsedImplicitly]
+    [SlashCommand("join-roles", "Roles given to new members",
+        Contexts = [InteractionContextType.Guild],
+        DefaultGuildPermissions = Permissions.Administrator)]
+    public async Task ShowJoinRoles()
+    {
+        ArgumentNullException.ThrowIfNull(Context.Guild);
+        var guildId = Context.Guild.Id;
+
+        var config = await settingsService.GetAsync(guildId);
+        await ReplyAsync(JoinRolesCards.Settings(config, guildState.GetBot(guildId)));
+    }
+}

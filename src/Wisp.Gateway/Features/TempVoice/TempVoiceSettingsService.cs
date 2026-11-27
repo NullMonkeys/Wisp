@@ -26,8 +26,8 @@ internal sealed partial class TempVoiceSettingsService(
                ?? new TempVoiceConfig { GuildId = guildId };
     }
 
-    public Task<TempVoiceConfig> EnableAsync(ulong guildId, bool force, CancellationToken ct = default)
-        => WithGuildLockAsync(guildId, () => EnableCoreAsync(guildId, force, ct), ct);
+    public Task<TempVoiceConfig> EnableAsync(ulong guildId, CancellationToken ct = default)
+        => WithGuildLockAsync(guildId, () => EnableCoreAsync(guildId, ct), ct);
 
     public Task<TempVoiceConfig> DisableAsync(ulong guildId, CancellationToken ct = default)
         => WithGuildLockAsync(guildId, () => DisableCoreAsync(guildId, ct), ct);
@@ -38,15 +38,18 @@ internal sealed partial class TempVoiceSettingsService(
         return await action();
     }
 
-    private async Task<TempVoiceConfig> EnableCoreAsync(ulong guildId, bool force, CancellationToken ct)
+    private async Task<TempVoiceConfig> EnableCoreAsync(ulong guildId, CancellationToken ct)
     {
         var config = await dbContext.TempVoiceConfigs.FirstOrDefaultAsync(x => x.GuildId == guildId, ct);
 
-        if (config is { Enabled: true } && !force && await ChannelsExistAsync(config, ct))
-            return config;
-
-        if (config is { Enabled: true })
-            await channelsService.DeleteAllAsync(guildId, ct);
+        switch (config)
+        {
+            case { Enabled: true } when await ChannelsExistAsync(config, ct):
+                return config;
+            case { Enabled: true }:
+                await channelsService.DeleteAllAsync(guildId, ct);
+                break;
+        }
 
         var oldCategoryId = config?.CategoryId;
         var oldMasterChannelId = config?.MasterChannelId;

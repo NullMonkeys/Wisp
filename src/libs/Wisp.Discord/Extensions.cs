@@ -8,7 +8,9 @@ using NetCord;
 using NetCord.Gateway;
 using NetCord.Hosting.Gateway;
 using NetCord.Hosting.Services.ApplicationCommands;
+using NetCord.Hosting.Services.ComponentInteractions;
 using NetCord.Services.ApplicationCommands;
+using NetCord.Services.ComponentInteractions;
 
 using Wisp.Discord.HealthChecks;
 
@@ -23,7 +25,7 @@ public static class Extensions
             builder.Services.AddDiscordShardedGateway(options =>
             {
                 options.Token = builder.Configuration.GetValue<string?>("Discord:Token");
-                options.Intents = GatewayIntents.Guilds | GatewayIntents.GuildVoiceStates;
+                options.Intents = GatewayIntents.All;
                 
                 var shardRangeStart = builder.Configuration.GetValue("Discord:ShardRange:Start", 0);
                 var shardRangeEnd = builder.Configuration.GetValue("Discord:ShardRange:End", 1);
@@ -36,6 +38,14 @@ public static class Extensions
             builder.Services.AddApplicationCommands(options =>
             {
                 options.ResultHandler = new ApplicationCommandResultHandler<ApplicationCommandContext>();
+            });
+            builder.Services.AddComponentInteractions<RoleMenuInteraction, RoleMenuInteractionContext>(options =>
+            {
+                options.ResultHandler = new ComponentInteractionResultHandler<RoleMenuInteractionContext>();
+            });
+            builder.Services.AddComponentInteractions<ButtonInteraction, ButtonInteractionContext>(options =>
+            {
+                options.ResultHandler = new ComponentInteractionResultHandler<ButtonInteractionContext>();
             });
 
             builder.Services.AddHealthChecks()

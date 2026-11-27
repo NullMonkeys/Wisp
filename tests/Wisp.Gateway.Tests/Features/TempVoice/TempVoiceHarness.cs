@@ -53,8 +53,8 @@ public sealed class TempVoiceHarness : IAsyncDisposable
 
     #region Settings
 
-    public Task<TempVoiceConfig> EnableAsync(bool force = false)
-        => InScope<ITempVoiceSettingsService, TempVoiceConfig>(s => s.EnableAsync(GuildId, force, Ct));
+    public Task<TempVoiceConfig> EnableAsync()
+        => InScope<ITempVoiceSettingsService, TempVoiceConfig>(s => s.EnableAsync(GuildId, Ct));
 
     public Task<TempVoiceConfig> DisableAsync()
         => InScope<ITempVoiceSettingsService, TempVoiceConfig>(s => s.DisableAsync(GuildId, Ct));
@@ -107,6 +107,9 @@ public sealed class TempVoiceHarness : IAsyncDisposable
     public Task ReconcileAsync()
         => InScope<ITempVoiceChannelsService>(s =>
             s.ReconcileAsync(GuildId, Discord.ChannelIds(GuildId), Discord.OccupiedChannelIds(GuildId), Ct));
+
+    public Task<int> CountActiveAsync()
+        => InScope<ITempVoiceChannelsService, int>(s => s.CountActiveAsync(GuildId, Ct));
 
     public Task DeleteGuildAsync()
         => InScope<IGuildsService>(s => s.DeleteGuildAsync(GuildId, Ct));
