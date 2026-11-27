@@ -1,6 +1,6 @@
 using NetCord.Rest;
 
-using Wisp.Discord;
+using Wisp.Discord.Rest;
 
 namespace Wisp.Gateway.Features.TempVoice;
 

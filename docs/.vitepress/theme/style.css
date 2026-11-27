@@ -1,0 +1,670 @@
+:root {
+    --sh-background: #ffffff;
+    --sh-foreground: #0a0a0a;
+    --sh-card: #ffffff;
+    --sh-muted: #f5f5f5;
+    --sh-muted-foreground: #737373;
+    --sh-accent: #f5f5f5;
+    --sh-border: #e5e5e5;
+    --sh-input: #e5e5e5;
+    --sh-ring: #a3a3a3;
+    --sh-primary: #171717;
+    --sh-primary-hover: #262626;
+    --sh-primary-foreground: #fafafa;
+    --sh-code: #fafafa;
+    --sh-warning: #b45309;
+    --sh-destructive: #dc2626;
+    --sh-hero-glow: radial-gradient(
+        closest-side,
+        rgb(0 0 0 / 0.09),
+        rgb(0 0 0 / 0.05) 35%,
+        rgb(0 0 0 / 0.02) 65%,
+        transparent
+    );
+
+    --sh-radius: 0.625rem;
+    --sh-radius-sm: calc(var(--sh-radius) - 4px);
+    --sh-radius-md: calc(var(--sh-radius) - 2px);
+    --sh-radius-lg: var(--sh-radius);
+    --sh-radius-xl: calc(var(--sh-radius) + 4px);
+}
+
+.dark {
+    --sh-background: #0a0a0a;
+    --sh-foreground: #fafafa;
+    --sh-card: #171717;
+    --sh-muted: #262626;
+    --sh-muted-foreground: #a3a3a3;
+    --sh-accent: #262626;
+    --sh-border: rgb(255 255 255 / 0.1);
+    --sh-input: rgb(255 255 255 / 0.15);
+    --sh-ring: #737373;
+    --sh-primary: #e5e5e5;
+    --sh-primary-hover: #d4d4d4;
+    --sh-primary-foreground: #171717;
+    --sh-code: #171717;
+    --sh-warning: #fbbf24;
+    --sh-destructive: #f87171;
+    --sh-hero-glow: radial-gradient(
+        closest-side,
+        rgb(255 255 255 / 0.2),
+        rgb(255 255 255 / 0.11) 35%,
+        rgb(255 255 255 / 0.04) 65%,
+        transparent
+    );
+}
+
+/* VitePress variables
+ * -------------------------------------------------------------------------- */
+
+:root,
+.dark {
+    --vp-font-family-base:
+        "Geist Variable", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji";
+    --vp-font-family-mono:
+        "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --vp-c-bg: var(--sh-background);
+    --vp-c-bg-alt: var(--sh-background);
+    --vp-c-bg-elv: var(--sh-card);
+    --vp-c-bg-soft: var(--sh-muted);
+
+    --vp-c-text-1: var(--sh-foreground);
+    --vp-c-text-2: var(--sh-muted-foreground);
+    --vp-c-text-3: var(--sh-muted-foreground);
+
+    --vp-c-border: var(--sh-input);
+    --vp-c-divider: var(--sh-border);
+    --vp-c-gutter: var(--sh-border);
+
+    --vp-c-default-1: var(--sh-muted-foreground);
+    --vp-c-default-2: var(--sh-accent);
+    --vp-c-default-3: var(--sh-accent);
+    --vp-c-default-soft: var(--sh-accent);
+
+    --vp-c-brand-1: var(--sh-foreground);
+    --vp-c-brand-2: var(--sh-primary-hover);
+    --vp-c-brand-3: var(--sh-primary);
+    --vp-c-brand-soft: var(--sh-accent);
+
+    --vp-c-tip-1: var(--sh-foreground);
+    --vp-c-tip-2: var(--sh-foreground);
+    --vp-c-tip-3: var(--sh-primary);
+    --vp-c-tip-soft: var(--sh-accent);
+
+    --vp-c-warning-1: var(--sh-warning);
+    --vp-c-danger-1: var(--sh-destructive);
+
+    --vp-shadow-1: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --vp-shadow-2:
+        0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --vp-shadow-3:
+        0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --vp-shadow-4:
+        0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --vp-shadow-5:
+        0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+    /* Nav and sidebar sit on the page background, separated by borders */
+    --vp-nav-bg-color: color-mix(
+        in srgb,
+        var(--sh-background) 90%,
+        transparent
+    );
+    --vp-nav-backdrop-filter: saturate(1.8) blur(8px);
+    --vp-nav-screen-bg-color: var(--sh-background);
+    --vp-sidebar-bg-color: var(--sh-background);
+    --vp-local-nav-bg-color: color-mix(
+        in srgb,
+        var(--sh-background) 90%,
+        transparent
+    );
+
+    /* Buttons: primary is solid foreground, alt is outline */
+    --vp-button-brand-border: transparent;
+    --vp-button-brand-text: var(--sh-primary-foreground);
+    --vp-button-brand-bg: var(--sh-primary);
+    --vp-button-brand-hover-border: transparent;
+    --vp-button-brand-hover-text: var(--sh-primary-foreground);
+    --vp-button-brand-hover-bg: var(--sh-primary-hover);
+    --vp-button-brand-active-border: transparent;
+    --vp-button-brand-active-text: var(--sh-primary-foreground);
+    --vp-button-brand-active-bg: var(--sh-primary-hover);
+    --vp-button-alt-border: var(--sh-input);
+    --vp-button-alt-text: var(--sh-foreground);
+    --vp-button-alt-bg: var(--sh-background);
+    --vp-button-alt-hover-border: var(--sh-input);
+    --vp-button-alt-hover-text: var(--sh-foreground);
+    --vp-button-alt-hover-bg: var(--sh-accent);
+    --vp-button-alt-active-border: var(--sh-input);
+    --vp-button-alt-active-text: var(--sh-foreground);
+    --vp-button-alt-active-bg: var(--sh-accent);
+
+    --vp-nav-logo-height: 32px;
+
+    /* Home: plain foreground name, soft glow behind the logo. The glow fades out inside its own circle, so it needs
+     no blur filter, which clips and bands at this size. */
+    --vp-home-hero-name-color: var(--sh-foreground);
+    --vp-home-hero-name-background: none;
+    --vp-home-hero-image-background-image: var(--sh-hero-glow);
+    --vp-home-hero-image-filter: none;
+
+    /* Code */
+    --vp-code-color: var(--sh-foreground);
+    --vp-code-bg: var(--sh-muted);
+    --vp-code-block-bg: var(--sh-code);
+    --vp-code-block-divider-color: var(--sh-border);
+    --vp-code-tab-bg: var(--sh-code);
+    --vp-code-tab-divider: var(--sh-border);
+    --vp-code-tab-text-color: var(--sh-muted-foreground);
+    --vp-code-tab-hover-text-color: var(--sh-foreground);
+    --vp-code-tab-active-text-color: var(--sh-foreground);
+    --vp-code-tab-active-bar-color: var(--sh-foreground);
+    --vp-code-lang-color: var(--sh-muted-foreground);
+    --vp-code-line-highlight-color: var(--sh-accent);
+    --vp-code-copy-code-bg: var(--sh-background);
+    --vp-code-copy-code-hover-bg: var(--sh-accent);
+    --vp-code-copy-code-border-color: var(--sh-border);
+    --vp-code-copy-code-hover-border-color: var(--sh-input);
+    --vp-code-copy-code-active-text: var(--sh-muted-foreground);
+
+    /* Callouts: neutral cards, only the title of warnings and dangers is coloured */
+    --vp-custom-block-font-size: 0.875rem;
+    --vp-custom-block-info-border: var(--sh-border);
+    --vp-custom-block-info-text: var(--sh-foreground);
+    --vp-custom-block-info-bg: var(--sh-card);
+    --vp-custom-block-info-code-bg: var(--sh-muted);
+    --vp-custom-block-note-border: var(--sh-border);
+    --vp-custom-block-note-text: var(--sh-foreground);
+    --vp-custom-block-note-bg: var(--sh-card);
+    --vp-custom-block-note-code-bg: var(--sh-muted);
+    --vp-custom-block-tip-border: var(--sh-border);
+    --vp-custom-block-tip-text: var(--sh-foreground);
+    --vp-custom-block-tip-bg: var(--sh-card);
+    --vp-custom-block-tip-code-bg: var(--sh-muted);
+    --vp-custom-block-important-border: var(--sh-border);
+    --vp-custom-block-important-text: var(--sh-foreground);
+    --vp-custom-block-important-bg: var(--sh-card);
+    --vp-custom-block-important-code-bg: var(--sh-muted);
+    --vp-custom-block-warning-border: var(--sh-border);
+    --vp-custom-block-warning-text: var(--sh-foreground);
+    --vp-custom-block-warning-bg: var(--sh-card);
+    --vp-custom-block-warning-code-bg: var(--sh-muted);
+    --vp-custom-block-caution-border: var(--sh-border);
+    --vp-custom-block-caution-text: var(--sh-foreground);
+    --vp-custom-block-caution-bg: var(--sh-card);
+    --vp-custom-block-caution-code-bg: var(--sh-muted);
+    --vp-custom-block-danger-border: var(--sh-border);
+    --vp-custom-block-danger-text: var(--sh-foreground);
+    --vp-custom-block-danger-bg: var(--sh-card);
+    --vp-custom-block-danger-code-bg: var(--sh-muted);
+    --vp-custom-block-details-border: var(--sh-border);
+    --vp-custom-block-details-text: var(--sh-foreground);
+    --vp-custom-block-details-bg: var(--sh-card);
+    --vp-custom-block-details-code-bg: var(--sh-muted);
+
+    /* Badges: shadcn's outline badge */
+    --vp-badge-info-border: var(--sh-border);
+    --vp-badge-info-text: var(--sh-foreground);
+    --vp-badge-info-bg: transparent;
+    --vp-badge-tip-border: var(--sh-border);
+    --vp-badge-tip-text: var(--sh-foreground);
+    --vp-badge-tip-bg: transparent;
+    --vp-badge-warning-border: var(--sh-border);
+    --vp-badge-warning-text: var(--sh-warning);
+    --vp-badge-warning-bg: transparent;
+    --vp-badge-danger-border: var(--sh-border);
+    --vp-badge-danger-text: var(--sh-destructive);
+    --vp-badge-danger-bg: transparent;
+
+    /* Search */
+    --vp-local-search-bg: var(--sh-background);
+    --vp-local-search-result-bg: var(--sh-background);
+    --vp-local-search-result-border: var(--sh-border);
+    --vp-local-search-result-selected-bg: var(--sh-accent);
+    --vp-local-search-result-selected-border: var(--sh-input);
+    --vp-local-search-highlight-bg: var(--sh-foreground);
+    --vp-local-search-highlight-text: var(--sh-background);
+    --vp-input-border-color: var(--sh-input);
+    --vp-input-switch-bg-color: var(--sh-muted);
+}
+
+/* Base
+ * -------------------------------------------------------------------------- */
+
+body {
+    font-feature-settings:
+        "rlig" 1,
+        "calt" 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background-color: color-mix(in srgb, var(--sh-foreground) 15%, transparent);
+}
+
+:focus-visible {
+    outline: 2px solid var(--sh-ring);
+    outline-offset: 2px;
+}
+
+/* Nav
+ * -------------------------------------------------------------------------- */
+
+.Layout .VPNavBar .divider-line,
+.Layout .VPNavBar.has-sidebar .divider::before {
+    background-color: var(--sh-border);
+}
+
+.Layout .VPNavBar.home:not(.top) .divider-line {
+    background-color: var(--sh-border);
+}
+
+.Layout .VPNavBarTitle .title {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.Layout .VPNavMenuLink,
+.Layout .VPNavBarMenuGroup .button .text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--sh-muted-foreground);
+}
+
+.Layout .VPNavMenuLink:hover,
+.Layout .VPNavMenuLink.active,
+.Layout .VPNavBarMenuGroup .button:hover .text,
+.Layout .VPNavBarMenuGroup.active .button .text {
+    color: var(--sh-foreground);
+}
+
+/* Search button, styled like shadcn's command trigger */
+@media (min-width: 768px) {
+    .Layout .VPNavBarSearchButton {
+        border: 1px solid var(--sh-input);
+        border-radius: var(--sh-radius-md);
+        background-color: color-mix(in srgb, var(--sh-muted) 50%, transparent);
+        transition:
+            border-color 0.15s,
+            background-color 0.15s;
+    }
+
+    .Layout .VPNavBarSearchButton:hover {
+        border-color: var(--sh-input);
+        background-color: var(--sh-accent);
+    }
+
+    .Layout .VPNavBarSearchButton .text {
+        color: var(--sh-muted-foreground);
+    }
+
+    .Layout .VPNavBarSearchButton kbd {
+        border-color: var(--sh-border);
+        border-radius: var(--sh-radius-sm);
+        background-color: var(--sh-background);
+        font-family: var(--vp-font-family-mono);
+    }
+}
+
+/* Flyout menus (the version menu) */
+.Layout .VPFlyout .menu,
+.Layout .VPMenu {
+    border: 1px solid var(--sh-border);
+    border-radius: var(--sh-radius-md);
+    box-shadow: var(--vp-shadow-3);
+}
+
+.Layout .VPMenuLink .link {
+    border-radius: var(--sh-radius-sm);
+    color: var(--sh-foreground);
+}
+
+.Layout .VPMenuLink .link:hover {
+    background-color: var(--sh-accent);
+    color: var(--sh-foreground);
+}
+
+/* Sidebar
+ * -------------------------------------------------------------------------- */
+
+@media (min-width: 960px) {
+    .Layout .VPSidebar {
+        border-inline-end: 1px solid var(--sh-border);
+    }
+}
+
+/* Group titles: small and muted, also for the group of the current page */
+.Layout .VPSidebar .VPSidebarItem.level-0 > .item > .text,
+.Layout .VPSidebar .VPSidebarItem.level-0 > .item > .link > .text,
+.Layout .VPSidebar .VPSidebarItem.level-0.has-active > .item > .text,
+.Layout .VPSidebar .VPSidebarItem.level-0.has-active > .item > .link > .text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--sh-muted-foreground);
+}
+
+/* Links: rounded rows that fill on hover and when active */
+.Layout .VPSidebarItem.level-1 > .item {
+    margin-inline: -0.5rem;
+    padding-inline: 0.5rem;
+    border-radius: var(--sh-radius-md);
+    transition: background-color 0.15s;
+}
+
+.Layout .VPSidebarItem.level-1.is-link > .item:hover,
+.Layout .VPSidebarItem.level-1.is-active > .item {
+    background-color: var(--sh-accent);
+}
+
+.Layout .VPSidebarItem.level-1 > .item .text {
+    font-weight: 400;
+    color: var(--sh-foreground);
+}
+
+.Layout .VPSidebarItem.level-1.is-link > .item > .link:hover .text,
+.Layout .VPSidebarItem.level-1.is-active > .item .link > .text {
+    color: var(--sh-foreground);
+}
+
+.Layout .VPSidebarItem.level-1.is-active > .item .link > .text {
+    font-weight: 500;
+}
+
+.Layout .VPSidebarItem .indicator {
+    display: none;
+}
+
+/* Content
+ * -------------------------------------------------------------------------- */
+
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+.vp-doc h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+}
+
+.vp-doc h2 {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 3rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--sh-border);
+}
+
+.vp-doc p,
+.vp-doc li {
+    line-height: 1.75;
+}
+
+.vp-doc a {
+    color: var(--sh-foreground);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(
+        in srgb,
+        var(--sh-foreground) 30%,
+        transparent
+    );
+    transition: text-decoration-color 0.15s;
+}
+
+.vp-doc a:hover {
+    color: var(--sh-foreground);
+    text-decoration-color: var(--sh-foreground);
+}
+
+.vp-doc a.header-anchor {
+    text-decoration: none;
+    color: var(--sh-muted-foreground);
+}
+
+/* Inline code */
+.vp-doc :not(pre) > code {
+    border-radius: var(--sh-radius-sm);
+    padding: 0.2em 0.4em;
+    font-size: 0.8125em;
+    font-weight: 500;
+}
+
+.vp-doc a > code {
+    color: inherit;
+}
+
+/* Code blocks */
+.vp-doc div[class*="language-"],
+.vp-doc .vp-code-group .tabs {
+    border: 1px solid var(--sh-border);
+}
+
+@media (min-width: 640px) {
+    .vp-doc div[class*="language-"] {
+        border-radius: var(--sh-radius-lg);
+    }
+}
+
+.vp-doc div[class*="language-"] button.copy {
+    border-radius: var(--sh-radius-md);
+}
+
+/* Tables: horizontal rules only, muted header */
+.vp-doc table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--sh-border);
+    border-radius: var(--sh-radius-lg);
+    font-size: 0.875rem;
+}
+
+.vp-doc tr {
+    border-top: none;
+    background-color: transparent;
+}
+
+.vp-doc tr:nth-child(2n) {
+    background-color: transparent;
+}
+
+.vp-doc th,
+.vp-doc td {
+    border: none;
+    border-bottom: 1px solid var(--sh-border);
+    padding: 0.625rem 1rem;
+}
+
+.vp-doc tr:last-child td {
+    border-bottom: none;
+}
+
+/* Names and values stay whole; long code in the last (description) column wraps instead of widening the table */
+.vp-doc td:not(:last-child) code,
+.vp-doc td .VPBadge {
+    white-space: nowrap;
+}
+
+.vp-doc td:last-child code {
+    overflow-wrap: anywhere;
+}
+
+.vp-doc th {
+    background-color: color-mix(in srgb, var(--sh-muted) 50%, transparent);
+    color: var(--sh-muted-foreground);
+    font-weight: 500;
+    text-align: start;
+}
+
+/* Callouts, shaped like shadcn's Alert */
+.vp-doc .custom-block {
+    border-radius: var(--sh-radius-lg);
+    padding: 0.75rem 1rem;
+}
+
+.vp-doc .custom-block p {
+    line-height: 1.6;
+}
+
+.vp-doc .custom-block .custom-block-title {
+    font-weight: 500;
+}
+
+.vp-doc .custom-block.warning .custom-block-title,
+.vp-doc .custom-block.caution .custom-block-title {
+    color: var(--sh-warning);
+}
+
+.vp-doc .custom-block.danger .custom-block-title {
+    color: var(--sh-destructive);
+}
+
+/* Badges */
+.vp-doc .VPBadge {
+    border-radius: var(--sh-radius-sm);
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+
+/* Aside outline: plain list, no rail */
+.Layout .VPDocAsideOutline .content {
+    border-inline-start: none;
+    padding-inline-start: 0;
+}
+
+.Layout .VPDocAsideOutline .outline-marker {
+    display: none;
+}
+
+.Layout .VPDocAsideOutline .outline-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.Layout .VPDocAsideOutline .outline-link {
+    color: var(--sh-muted-foreground);
+}
+
+.Layout .VPDocAsideOutline .outline-link:hover,
+.Layout .VPDocAsideOutline .outline-link.active {
+    color: var(--sh-foreground);
+}
+
+/* Prev / next */
+.Layout .VPDocFooter .pager-link {
+    border-color: var(--sh-border);
+    border-radius: var(--sh-radius-lg);
+    transition: background-color 0.15s;
+}
+
+.Layout .VPDocFooter .pager-link:hover {
+    border-color: var(--sh-border);
+    background-color: var(--sh-accent);
+}
+
+.Layout .VPDocFooter .pager-link .title {
+    color: var(--sh-foreground);
+}
+
+/* Home
+ * -------------------------------------------------------------------------- */
+
+.Layout .VPHero .name,
+.Layout .VPHero .text {
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.Layout .VPHero .text {
+    color: var(--sh-foreground);
+}
+
+.Layout .VPHero .tagline {
+    color: var(--sh-muted-foreground);
+}
+
+/* Larger than VitePress's, since the glow fades out well inside its edge */
+.Layout .VPHero .image-bg {
+    width: 18rem;
+    height: 18rem;
+}
+
+@media (min-width: 640px) {
+    .Layout .VPHero .image-bg {
+        width: 26rem;
+        height: 26rem;
+    }
+}
+
+@media (min-width: 960px) {
+    .Layout .VPHero .image-bg {
+        width: 32rem;
+        height: 32rem;
+    }
+}
+
+.Layout .VPHero .VPButton.medium {
+    border-radius: var(--sh-radius-md);
+    padding: 0 1.25rem;
+    font-weight: 500;
+}
+
+.Layout .VPHome .VPFeature {
+    border: 1px solid var(--sh-border);
+    border-radius: var(--sh-radius-xl);
+    background-color: var(--sh-card);
+    box-shadow: var(--vp-shadow-1);
+    transition: background-color 0.15s;
+}
+
+.Layout .VPHome .VPFeature.link:hover {
+    border-color: var(--sh-border);
+    background-color: var(--sh-accent);
+}
+
+.Layout .VPHome .VPFeature .title {
+    font-weight: 600;
+}
+
+.Layout .VPHome .VPFeature .details {
+    color: var(--sh-muted-foreground);
+}
+
+.Layout .VPHome .VPFeature .link-text {
+    color: var(--sh-foreground);
+}
+
+/* Footer
+ * -------------------------------------------------------------------------- */
+
+.Layout .VPFooter {
+    border-top: 1px solid var(--sh-border);
+}
+
+.Layout .VPFooter .message,
+.Layout .VPFooter .copyright {
+    color: var(--sh-muted-foreground);
+}
+
+/* Local search (rendered outside .Layout)
+ * -------------------------------------------------------------------------- */
+
+body .VPLocalSearchBox .shell {
+    border: 1px solid var(--sh-border);
+    border-radius: var(--sh-radius-xl);
+    box-shadow: var(--vp-shadow-5);
+}
+
+body .VPLocalSearchBox .search-bar {
+    border-radius: var(--sh-radius-md);
+}
+
+body .VPLocalSearchBox .result {
+    border-radius: var(--sh-radius-md);
+}

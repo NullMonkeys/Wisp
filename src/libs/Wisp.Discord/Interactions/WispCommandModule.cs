@@ -2,7 +2,9 @@ using NetCord;
 using NetCord.Rest;
 using NetCord.Services.ApplicationCommands;
 
-namespace Wisp.Discord;
+using Wisp.Discord.Components;
+
+namespace Wisp.Discord.Interactions;
 
 public abstract class WispCommandModule : ApplicationCommandModule<ApplicationCommandContext>
 {

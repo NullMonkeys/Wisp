@@ -20,8 +20,17 @@ RUN dotnet publish src/Wisp.Gateway/Wisp.Gateway.csproj \
     -p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:11.0@sha256:ca396ece3f2a2e62c7a03f1d7d710b8bc7e8c9dea5597d091178d9f5bfca13f0 AS final
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 USER $APP_UID
 EXPOSE 8080
 COPY --from=build /app .
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+    CMD curl -fsS -o /dev/null http://localhost:8080/readyz || exit 1
+
 ENTRYPOINT ["dotnet", "Wisp.Gateway.dll"]

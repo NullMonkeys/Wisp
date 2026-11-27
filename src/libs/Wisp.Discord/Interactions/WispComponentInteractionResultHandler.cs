@@ -5,9 +5,9 @@ using NetCord.Hosting.Services.ComponentInteractions;
 using NetCord.Services;
 using NetCord.Services.ComponentInteractions;
 
-namespace Wisp.Discord;
+namespace Wisp.Discord.Interactions;
 
-public sealed class ComponentInteractionResultHandler<TContext> : IComponentInteractionResultHandler<TContext>
+public sealed class WispComponentInteractionResultHandler<TContext> : IComponentInteractionResultHandler<TContext>
     where TContext : IComponentInteractionContext
 {
     public async ValueTask HandleResultAsync(

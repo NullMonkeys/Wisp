@@ -4,7 +4,7 @@ using NetCord;
 using NetCord.Services;
 using NetCord.Services.ApplicationCommands;
 
-using Wisp.Discord;
+using Wisp.Discord.Interactions;
 
 namespace Wisp.Gateway.Features.TempVoice.Commands;
 

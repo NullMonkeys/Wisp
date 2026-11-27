@@ -168,8 +168,6 @@ internal sealed partial class TempVoiceChannelsService(
                 ? guildState.GetPermissionOverwrites(guildId, categoryId).ToDictionary(o => o.Id)
                 : [];
 
-            // Keep only what the owner changed on top of the category, so later category permission
-            // changes still reach their next channel. Owner and bot overwrites are rebuilt in BuildChannel.
             preferences.Overwrites.Clear();
 
             foreach (var overwrite in afterOverwrites)
