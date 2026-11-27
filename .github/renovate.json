@@ -6,7 +6,7 @@
     "helpers:pinGitHubActionDigests",
     "docker:pinDigests"
   ],
-  "enabledManagers": ["nuget", "github-actions", "dockerfile"],
+  "enabledManagers": ["nuget", "github-actions", "dockerfile", "npm"],
   "reviewers": ["magicman517"],
   "prConcurrentLimit": 10,
   "automerge": false,
