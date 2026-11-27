@@ -60,7 +60,7 @@ When inviting the bot, give it **Manage Channels**, **Manage Roles**, **Move Mem
 
 ## Development
 
-Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download), the [Aspire CLI](https://aspire.dev) and Docker.
+Requires the [.NET 11 SDK](https://dotnet.microsoft.com/download), the [Aspire CLI](https://aspire.dev) and Docker.
 
 ```sh
 aspire run    # starts Postgres and the bot

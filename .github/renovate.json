@@ -28,7 +28,7 @@
     },
     {
       "matchDatasources": ["dotnet-version"],
-      "allowedVersions": "/^10\\./"
+      "allowedVersions": "/^11\\./"
     },
     {
       "matchManagers": ["dockerfile"],
@@ -36,8 +36,8 @@
         "mcr.microsoft.com/dotnet/sdk",
         "mcr.microsoft.com/dotnet/aspnet"
       ],
-      "allowedVersions": "/^10\\.0(?:$|[.-])/",
-      "groupName": ".NET 10 base images"
+      "allowedVersions": "/^11\\.0(?:$|[.-])/",
+      "groupName": ".NET 11 base images"
     }
   ]
 }
