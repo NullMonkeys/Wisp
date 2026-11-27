@@ -2,7 +2,7 @@ using System.Net;
 
 using NetCord.Rest;
 
-namespace Wisp.Discord;
+namespace Wisp.Discord.Rest;
 
 public static class RestClientExtensions
 {

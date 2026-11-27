@@ -5,9 +5,9 @@ using NetCord.Hosting.Services.ApplicationCommands;
 using NetCord.Services;
 using NetCord.Services.ApplicationCommands;
 
-namespace Wisp.Discord;
+namespace Wisp.Discord.Interactions;
 
-public sealed class ApplicationCommandResultHandler<TContext> : IApplicationCommandResultHandler<TContext>
+public sealed class WispApplicationCommandResultHandler<TContext> : IApplicationCommandResultHandler<TContext>
     where TContext : IApplicationCommandContext
 {
     public async ValueTask HandleResultAsync(

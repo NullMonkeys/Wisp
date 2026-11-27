@@ -4,7 +4,9 @@ using NetCord;
 using NetCord.Rest;
 using NetCord.Services;
 
-namespace Wisp.Discord;
+using Wisp.Discord.Components;
+
+namespace Wisp.Discord.Interactions;
 
 /// <summary>
 /// Turns a failed command or component interaction into an error card for the user.

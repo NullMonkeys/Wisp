@@ -1,7 +1,7 @@
 using NetCord;
 using NetCord.Rest;
 
-namespace Wisp.Discord;
+namespace Wisp.Discord.Components;
 
 public static class Cards
 {

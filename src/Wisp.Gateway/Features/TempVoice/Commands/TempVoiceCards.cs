@@ -1,7 +1,7 @@
 using NetCord;
 using NetCord.Rest;
 
-using Wisp.Discord;
+using Wisp.Discord.Components;
 using Wisp.Persistence.Entities;
 
 namespace Wisp.Gateway.Features.TempVoice.Commands;
